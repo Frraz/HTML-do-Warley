@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+    <style>
+
+    body{ background-color: rgb(224, 133, 156);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } 
+    button {
+        border-radius: 5px;
+        width: 75px;
+        height: 40px;
+        font-size: small;
+    }
+    p#text {
+        font: bolder;
+        font-family: sans-serif;
+        font-size: x-large;
+    }
+
+    </style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>To Brunna</title>
+</head>
+<body class="bg-dark text-light">
+
+    <div>
+        <p id="text">Me dá uns beijinhos?</p>
+        <div class="d-flex justify-content-around">
+            <button id="s" class="btn btn-light" onclick="window.location.href='https://conteudo.imguol.com.br/c/geral/gif-animated/ad/2018/03/20/f1-1521549868411_g2_500x333.jpg'" target='_blank'>
+                Sim
+            </button>
+            <button id="n" class="btn btn-light" mouseover=""> Não</button>
+        </div>
+    </div>
+
+    <script>
+
+        document.querySelector('#n').addEventListener('mouseover', function() {
+            let h = window.innerHeight - 50;
+            let w = window.innerWidth - 50;
+            this.style.position = 'absolute';
+            this.style.top = Math.random() * h + 'px';
+            this.style.left = Math.random() * w + 'px';
+        })
+                
+    </script>
+
+</body>
+</html>
