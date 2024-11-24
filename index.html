@@ -1,54 +1,99 @@
 <!DOCTYPE html>
-<html lang="PT-BR">
-    <style>
-
-    body{ background-color: rgb(224, 133, 156);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    } 
-    button {
-        border-radius: 5px;
-        width: 75px;
-        height: 40px;
-        font-size: small;
-    }
-    p#text {
-        font: bolder;
-        font-family: sans-serif;
-        font-size: x-large;
-    }
-
-    </style>
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>By: Warley</title>
+    <style>
+        body {
+            background-color: rgb(224, 133, 156);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        button {
+            border-radius: 5px;
+            width: 75px;
+            height: 40px;
+            font-size: small;
+            cursor: pointer;
+        }
+        p#text {
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: x-large;
+            text-align: center;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            width: 200px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body class="bg-dark text-light">
-
+<body>
     <div>
         <p id="text">Quer namorar comigo?</p>
-        <div class="d-flex justify-content-around">
-            <button id="s" class="btn btn-light" onclick="window.location.href='https://conteudo.imguol.com.br/c/geral/gif-animated/ad/2018/03/20/f1-1521549868411_g2_500x333.jpg'" target='_blank'>
-                Sim
-            </button>
-            <button id="n" class="btn btn-light" mouseover=""> Não</button>
+        <div class="btn-container">
+            <button id="s" class="btn btn-light">Sim</button>
+            <button id="n" class="btn btn-light">Não</button>
         </div>
     </div>
 
+    <!-- Formulário oculto que será enviado pelo EmailJS -->
+    <form id="emailForm" style="display:none;">
+        <input type="text" name="user_email" value="seu-email@exemplo.com">
+    </form>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
     <script>
+        // Inicializar o EmailJS com sua chave pública
+        emailjs.init("pBsyLCXNjUvN9R0Ro");
 
+        // Função para enviar o e-mail ao clicar no botão "Sim"
+        document.getElementById("s").addEventListener("click", function(event) {
+            event.preventDefault(); // Impede o comportamento padrão de redirecionamento
+
+            // Enviar o e-mail
+            emailjs.sendForm("service_dpv3fgm", "template_shgrubw", document.getElementById("emailForm"))
+                .then(function(response) {
+                    alert("Eu te amo!");
+                    window.location.href = 'batidas.html'; // Redireciona após sucesso
+                }, function(error) {
+                    alert("Erro ao enviar e-mail: " + error.text);
+                });
+        });
+
+        // Função para mover o botão "Não" quando o mouse passa sobre ele
         document.querySelector('#n').addEventListener('mouseover', function() {
-            let h = window.innerHeight - 50;
-            let w = window.innerWidth - 50;
-            this.style.position = 'absolute';
-            this.style.top = Math.random() * h + 'px';
-            this.style.left = Math.random() * w + 'px';
-        })
-                
-    </script>
+            const buttonWidth = 75; // Largura do botão
+            const buttonHeight = 40; // Altura do botão
+            const maxX = window.innerWidth - buttonWidth;
+            const maxY = window.innerHeight - buttonHeight;
 
+            let newLeft = Math.random() * maxX;
+            let newTop = Math.random() * maxY;
+
+            // Garante que o botão "Não" não sobreponha o botão "Sim"
+            const simButton = document.getElementById('s').getBoundingClientRect();
+            if (
+                newLeft < simButton.right &&
+                newLeft + buttonWidth > simButton.left &&
+                newTop < simButton.bottom &&
+                newTop + buttonHeight > simButton.top
+            ) {
+                newLeft = simButton.right + 10;
+                newTop = simButton.bottom + 10;
+            }
+
+            this.style.position = 'absolute';
+            this.style.left = `${newLeft}px`;
+            this.style.top = `${newTop}px`;
+        });
+    </script>
 </body>
 </html>
